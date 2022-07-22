@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
-  applicants "github.com/valenber/gen-con/modules"
+  applicants "github.com/valenber/gen-con/modules/applicants"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,7 +22,8 @@ func getContract(c *gin.Context) {
 
   if err != nil {
     c.IndentedJSON(http.StatusNotFound, gin.H{"message": fmt.Sprintf("Can not find applicant with id %s", id)})
-  } else {
-    c.IndentedJSON(http.StatusOK, applicant)
+    return
   }
+
+  c.IndentedJSON(http.StatusOK, applicant)
 }

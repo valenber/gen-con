@@ -3,7 +3,7 @@ package applicants_test
 import (
 	"testing"
 
-	applicants "github.com/valenber/gen-con/modules"
+	applicants "github.com/valenber/gen-con/modules/applicants"
 )
 
 func TestGetApplicantsNotFound(t *testing.T) {
