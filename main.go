@@ -14,7 +14,7 @@ import (
 func main()  {
   router := gin.Default();
 
-  router.GET("/contract/:applicant_id", getContract)
+  router.GET("/contracts/:applicant_id", getContract)
 
   router.Run("localhost:3030")
 }
