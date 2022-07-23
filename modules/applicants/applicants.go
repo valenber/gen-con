@@ -22,5 +22,6 @@ func GetApplicant(id string) (*Applicant, error) {
       return &applicant, nil 
     }
   }
+
   return nil, errors.New("Can not find applicant")
 }

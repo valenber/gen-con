@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"net/http"
-  applicants "github.com/valenber/gen-con/modules/applicants"
+
+	"github.com/valenber/gen-con/modules/applicants"
+	"github.com/valenber/gen-con/modules/templates"
 
 	"github.com/gin-gonic/gin"
 )
@@ -25,5 +27,12 @@ func getContract(c *gin.Context) {
     return
   }
 
-  c.IndentedJSON(http.StatusOK, applicant)
+  page, err := templates.BuidTemplate(*applicant)
+
+  if err != nil {
+    c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": fmt.Sprintf("Failed to build page from template using data for the applicant with id %s", id)})
+    return
+  }
+
+  c.String(http.StatusOK, page)
 }
