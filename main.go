@@ -54,7 +54,11 @@ func getContract(c *gin.Context) {
     return
   }
 
-  c.Writer.Header().Set("Content-Disposition", "attachment; filename=contract.pdf")
+  c.Writer.Header().Set(
+    "Content-Disposition", 
+    fmt.Sprintf(
+      "attachment; filename=%s-%s.pdf", applicant.Name, applicant.ContractType,
+    ))
   c.Writer.Header().Set("Content-type", "application/pdf")
   c.Data(http.StatusOK, "ok", pdf)
 }
