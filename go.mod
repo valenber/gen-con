@@ -3,6 +3,7 @@ module github.com/valenber/gen-con
 go 1.18
 
 require (
+	github.com/SebastiaanKlippert/go-wkhtmltopdf v1.7.2
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/gin-gonic/gin v1.8.1 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect

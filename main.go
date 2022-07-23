@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/valenber/gen-con/modules/applicants"
+	"github.com/valenber/gen-con/modules/documents"
 	"github.com/valenber/gen-con/modules/templates"
 
 	"github.com/gin-gonic/gin"
@@ -34,5 +35,14 @@ func getContract(c *gin.Context) {
     return
   }
 
-  c.String(http.StatusOK, page)
+  pdf, err := documents.MakePdf(page)
+
+  if err != nil {
+    c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": fmt.Sprintf("Failed to generate document for the applicant with id %s", id)})
+    return
+  }
+
+  c.Writer.Header().Set("Content-Disposition", "attachment; filename=contract.pdf")
+  c.Writer.Header().Set("Content-type", "application/pdf")
+  c.Data(http.StatusOK, "ok", pdf)
 }
