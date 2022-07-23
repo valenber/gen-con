@@ -19,7 +19,7 @@ func MakePdf(htmlString string) ([]byte, error) {
 
   page := wkhtmltopdf.NewPageReader(bytes.NewReader([]byte(htmlString)))
 
-  // process styles
+  // this allows to process styles
   page.EnableLocalFileAccess.Set(true)
 
   pdfg.AddPage(page)
@@ -27,7 +27,6 @@ func MakePdf(htmlString string) ([]byte, error) {
   err = pdfg.Create()
 
   if err != nil {
-    fmt.Println(err)
     return nilBuffer, err
   }
 

@@ -2,7 +2,6 @@ package templates
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"html/template"
 
@@ -10,18 +9,19 @@ import (
 )
 
 func BuidTemplate(applicant applicants.Applicant) (string, error) {
-  t, err := template.ParseFiles("modules/templates/test-template.html")
+
+  templatePath := fmt.Sprintf("modules/templates/collection/%s.html", applicant.ContractType)
+
+  t, err := template.ParseFiles(fmt.Sprintf(templatePath))
 
   if err != nil {
-    fmt.Println(err)
-    return "", errors.New("Failed to parse template file")
+    return "", err
   }
 
   var page bytes.Buffer
 
   if err := t.Execute(&page, applicant); err != nil {
-    fmt.Println(err)
-    return "", errors.New("Failed to populate template with data")
+    return "", err
   }
 
   return page.String(), nil

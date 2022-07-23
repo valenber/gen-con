@@ -24,21 +24,33 @@ func getContract(c *gin.Context) {
   applicant, err := applicants.GetApplicant(id)
 
   if err != nil {
-    c.IndentedJSON(http.StatusNotFound, gin.H{"message": fmt.Sprintf("Can not find applicant with id %s", id)})
+    c.IndentedJSON(http.StatusNotFound, gin.H{
+      "message": "Failed to get applicant",
+      "error": err.Error(),
+      "details": fmt.Sprintf("applicant.ID=%s", id),
+    })
     return
   }
 
   page, err := templates.BuidTemplate(*applicant)
 
   if err != nil {
-    c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": fmt.Sprintf("Failed to build page from template using data for the applicant with id %s", id)})
+    c.IndentedJSON(http.StatusInternalServerError, gin.H{
+      "message": "Failed to build template",
+      "error": err.Error(),
+      "details": fmt.Sprintf("applicant.ID=%s", applicant.ID),
+    })
     return
   }
 
   pdf, err := documents.MakePdf(page)
 
   if err != nil {
-    c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": fmt.Sprintf("Failed to generate document for the applicant with id %s", id)})
+    c.IndentedJSON(http.StatusInternalServerError, gin.H{
+      "message": "Failed to make PDF",
+      "details": fmt.Sprintf("applicant.ID=%s", applicant.ID),
+      "error": err.Error(),
+    })
     return
   }
 
